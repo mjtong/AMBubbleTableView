@@ -41,6 +41,8 @@
 
 		self.labelTimestamp.shadowColor = [UIColor whiteColor];
 		self.labelTimestamp.shadowOffset = CGSizeMake(0, 1.0);
+        
+        		
 		
     }
     return self;

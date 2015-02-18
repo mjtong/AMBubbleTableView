@@ -8,6 +8,7 @@
 
 #import "AMBubbleFlatAccessoryView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "ChikkaMessage.h"
 
 @interface AMBubbleFlatAccessoryView ()
 
@@ -24,7 +25,8 @@
 {
     self = [super init];
     if (self) {
-		
+		//[self setBackgroundColor:[UIColor redColor]];
+        
 		[self setClipsToBounds:YES];
 		
 		self.imageAvatar = [[UIImageView alloc] init];
@@ -38,6 +40,7 @@
 		[self.labelTimestamp setTextColor:[UIColor colorWithRed:0.627 green:0.627 blue:0.627 alpha:1]];
 		[self.labelTimestamp setTextAlignment:NSTextAlignmentCenter];
 		[self.labelTimestamp setBackgroundColor:[UIColor clearColor]];
+//		[self.labelTimestamp setBackgroundColor:[UIColor blueColor]];
     }
     return self;
 }
@@ -50,37 +53,65 @@
 
 - (void)setupView:(NSDictionary*)params
 {
-	// Avatar available
-	if ([params[@"avatar"] isKindOfClass:[UIImage class]]) {
-		[self.imageAvatar setImage:params[@"avatar"]];
-	}
-	[self.labelTimestamp setText:params[@"date"]];
-	
-	CGSize sizeTime = CGSizeZero;
-	if ([self.options[AMOptionsTimestampEachMessage] boolValue]) {
-		sizeTime = [params[@"date"] sizeWithFont:self.options[AMOptionsTimestampShortFont]
-							   constrainedToSize:CGSizeMake(50, CGFLOAT_MAX)
-								   lineBreakMode:NSLineBreakByWordWrapping];
-	}
-	
-	[self.imageAvatar setFrame:CGRectMake(0,
-										  0,
-										  [self.options[AMOptionsAvatarSize] floatValue],
-										  [self.options[AMOptionsAvatarSize] floatValue])
-	 ];
-	
-	[self.labelTimestamp setFrame:CGRectMake(0,
-											 [self.options[AMOptionsAvatarSize] floatValue],
-											 [self.options[AMOptionsAvatarSize] floatValue],
-											 sizeTime.height)
-	 ];
-	
-	[self setFrame:CGRectMake(0,
-							  0,
-							  [self.options[AMOptionsAvatarSize] floatValue],
-							  [self.options[AMOptionsAvatarSize] floatValue]  + sizeTime.height + 2)
-	 ];
-	
+    if (params[@"status"]){
+        CGSize sizeTime = CGSizeZero;
+        
+        int status = [params[@"status"] intValue];
+        
+        if (status == MessageStatusFailed || status == MessageStatusFailedCredits ){
+
+            [self.labelTimestamp setText:@"Failed"];
+            [self.labelTimestamp setTextColor:[UIColor redColor]];
+            
+            if ([self.options[AMOptionsTimestampEachMessage] boolValue]) {
+                sizeTime = [self.labelTimestamp.text sizeWithFont:self.options[AMOptionsTimestampShortFont]
+                                       constrainedToSize:CGSizeMake(kMessageTextWidth, CGFLOAT_MAX)
+                                           lineBreakMode:NSLineBreakByWordWrapping];
+            }
+        }else if (status == MessageStatusSending) {
+            
+            [self.labelTimestamp setText:@"Sending..."];
+            [self.labelTimestamp setTextColor:[UIColor colorWithRed:0.627 green:0.627 blue:0.627 alpha:1]];
+            
+            //CGSize sizeTime = CGSizeZero;
+            if ([self.options[AMOptionsTimestampEachMessage] boolValue]) {
+                sizeTime = [self.labelTimestamp.text sizeWithFont:self.options[AMOptionsTimestampShortFont]
+                                                constrainedToSize:CGSizeMake(kMessageTextWidth, CGFLOAT_MAX)
+                                                    lineBreakMode:NSLineBreakByWordWrapping];
+            }
+            
+        }else if (status == MessageStatusSent) {
+            
+            [self.labelTimestamp setText:@"Sent"];
+            [self.labelTimestamp setTextColor:[UIColor colorWithRed:0.627 green:0.627 blue:0.627 alpha:1]];
+            
+            
+            if ([self.options[AMOptionsTimestampEachMessage] boolValue]) {
+                sizeTime = [self.labelTimestamp.text sizeWithFont:self.options[AMOptionsTimestampShortFont]
+                                                constrainedToSize:CGSizeMake(kMessageTextWidth, CGFLOAT_MAX)
+                                                    lineBreakMode:NSLineBreakByWordWrapping];
+            }
+            
+        }else if (status == MessageStatusSentViaSMS) {
+            
+            [self.labelTimestamp setText:@"Sent via SMS"];
+            [self.labelTimestamp setTextColor:[UIColor colorWithRed:0.627 green:0.627 blue:0.627 alpha:1]];
+            
+            if ([self.options[AMOptionsTimestampEachMessage] boolValue]) {
+                sizeTime = [self.labelTimestamp.text sizeWithFont:self.options[AMOptionsTimestampShortFont]
+                                                constrainedToSize:CGSizeMake(kMessageTextWidth, CGFLOAT_MAX)
+                                                    lineBreakMode:NSLineBreakByWordWrapping];
+            }
+            
+        }else {
+            [self.labelTimestamp setTextColor:[UIColor colorWithRed:0.627 green:0.627 blue:0.627 alpha:1]];
+        }
+        
+        [self.labelTimestamp setFrame:CGRectMake(0, 4, sizeTime.width, sizeTime.height)];
+
+        [self setFrame:CGRectMake(0, 0, self.labelTimestamp.frame.size.width, self.labelTimestamp.frame.size.height)];
+    }
+
 }
 
 

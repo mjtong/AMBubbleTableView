@@ -36,6 +36,9 @@ NSString *const AMOptionsButtonFont = @"AMOptionsButtonFont";
 NSString *const AMOptionsBubbleSwipeEnabled = @"AMOptionsBubbleSwipeEnabled";
 NSString *const AMOptionsBubblePressEnabled = @"AMOptionsBubblePressEnabled";
 
+NSString *const AMOptionsImageIncomingSelected = @"AMOptionsImageIncomingSelected";
+NSString *const AMOptionsImageOutgoingSelected = @"AMOptionsImageOutgoingSelected";
+
 @implementation AMBubbleGlobals
 
 + (NSDictionary*)defaultOptions
@@ -44,14 +47,14 @@ NSString *const AMOptionsBubblePressEnabled = @"AMOptionsBubblePressEnabled";
 	NSMutableDictionary* defaults = [@{
 	AMOptionsTimestampEachMessage : @YES,
 	AMOptionsAccessoryClass: @"AMBubbleAccessoryView",
-	AMOptionsTimestampShortFont: [UIFont boldSystemFontOfSize:11],
+	AMOptionsTimestampShortFont: [UIFont systemFontOfSize:10],
 	AMOptionsTimestampFont: [UIFont boldSystemFontOfSize:13],
 	AMOptionsAvatarSize: @50,
-	AMOptionsAccessorySize: @50,
+	AMOptionsAccessorySize: @40,
 	AMOptionsAccessoryMargin: @5,
 	AMOptionsTimestampHeight: @40,
 	AMOptionsBubblePressEnabled: @YES,
-	AMOptionsBubbleSwipeEnabled: @YES
+	AMOptionsBubbleSwipeEnabled: @NO
 	} mutableCopy];
 
 	// Add default styles
@@ -71,12 +74,14 @@ NSString *const AMOptionsBubblePressEnabled = @"AMOptionsBubblePressEnabled";
 	AMOptionsTextFieldBackground: [UIColor whiteColor],
 	AMOptionsTextFieldFont: [UIFont systemFontOfSize:15],
 	AMOptionsTextFieldFontColor: [UIColor blackColor],
-	AMOptionsBubbleTableBackground: [UIColor colorWithRed:0.859f green:0.886f blue:0.929f alpha:1.0f],
+	//AMOptionsBubbleTableBackground: [UIColor colorWithRed:0.859f green:0.886f blue:0.929f alpha:1.0f],
+          AMOptionsBubbleTableBackground: [UIColor redColor],
 	AMOptionsAccessoryPosition: @(AMBubbleAccessoryDown),
 	AMOptionsButtonOffset: @8,
 	AMOptionsBubbleTextColor: [UIColor blackColor],
 	AMOptionsBubbleTextFont: [UIFont systemFontOfSize:15],
 	AMOptionsUsernameFont: [UIFont boldSystemFontOfSize:13]
+
 	};
 }
 
@@ -105,23 +110,32 @@ NSString *const AMOptionsBubblePressEnabled = @"AMOptionsBubblePressEnabled";
 {
 	return @{
 		  AMOptionsTimestampFont: [UIFont boldSystemFontOfSize:11],
-	AMOptionsImageIncoming: [[UIImage imageNamed:@"bubbleFlatIncoming"] stretchableImageWithLeftCapWidth:23 topCapHeight:15],
-	AMOptionsImageOutgoing: [[UIImage imageNamed:@"bubbleFlatOutgoing"] stretchableImageWithLeftCapWidth:15 topCapHeight:13],
-	AMOptionsImageBar: [[UIImage imageNamed:@"imageBarFlat"] resizableImageWithCapInsets:UIEdgeInsetsMake(19.0f, 3.0f, 19.0f, 3.0f)],
+	//AMOptionsImageIncoming: [[UIImage imageNamed:@"msg_received"] stretchableImageWithLeftCapWidth:50 topCapHeight:13],
+	//AMOptionsImageOutgoing: [[UIImage imageNamed:@"msg_sent"] stretchableImageWithLeftCapWidth:15 topCapHeight:13],
+    AMOptionsImageBar: [[UIImage imageNamed:@"imageBarFlat"] resizableImageWithCapInsets:UIEdgeInsetsMake(19.0f, 3.0f, 19.0f, 3.0f)],
 	AMOptionsImageInput: [[UIImage imageNamed:@"imageInputFlat"] resizableImageWithCapInsets:UIEdgeInsetsMake(20.0f, 12.0f, 18.0f, 18.0f)],
 	AMOptionsImageButton: [[UIImage imageNamed:@"buttonSendFlat"] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0f, 13.0f, 0.0f, 13.0f)],
 	AMOptionsImageButtonHighlight: [[UIImage imageNamed:@"buttonSendHighlightedFlat"] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0f, 13.0f, 0.0f, 13.0f)]	,
 	AMOptionsTextFieldBackground: [UIColor colorWithRed:0.827 green:0.827 blue:0.827 alpha:1],
 	AMOptionsTextFieldFont: [UIFont systemFontOfSize:15],
 	AMOptionsTextFieldFontColor: [UIColor darkGrayColor],
-	AMOptionsBubbleTableBackground: [UIColor colorWithRed:0.913f green:0.913f blue:0.913f alpha:1.0f],
+	AMOptionsBubbleTableBackground: [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f],
 	AMOptionsAccessoryPosition: @(AMBubbleAccessoryUp),
 	AMOptionsAccessoryClass: @"AMBubbleFlatAccessoryView",
-	AMOptionsAccessorySize: @60,
+	AMOptionsAccessorySize: @100,
 	AMOptionsButtonOffset: @8,
 	AMOptionsBubbleTextColor: [UIColor colorWithRed:0.36f green:0.36f blue:0.36f alpha:1.0f],
-	AMOptionsBubbleTextFont: [UIFont systemFontOfSize:13],
-	AMOptionsUsernameFont: [UIFont boldSystemFontOfSize:11]
+	AMOptionsBubbleTextFont: [UIFont systemFontOfSize:15],
+	AMOptionsUsernameFont: [UIFont boldSystemFontOfSize:11],
+          
+          //AMOptionsImageIncomingSelected:[[UIImage imageNamed:@"msg_received_selected"] stretchableImageWithLeftCapWidth:15 topCapHeight:13],
+    //AMOptionsImageOutgoingSelected:[[UIImage imageNamed:@"msg_sent_selected"] stretchableImageWithLeftCapWidth:15 topCapHeight:13]
+        
+          AMOptionsImageIncoming: [[UIImage imageNamed:@"msg_received"] resizableImageWithCapInsets:UIEdgeInsetsMake(7.0f, 15.0f, 21.0f, 7.0f)],
+          AMOptionsImageOutgoing: [[UIImage imageNamed:@"msg_sent"] resizableImageWithCapInsets:UIEdgeInsetsMake(7.0f, 7.0f, 21.0f, 15.0f)],
+          AMOptionsImageIncomingSelected:[[UIImage imageNamed:@"msg_received_selected"] resizableImageWithCapInsets:UIEdgeInsetsMake(7.0f, 15.0f, 21.0f, 7.0f)],
+          AMOptionsImageOutgoingSelected:[[UIImage imageNamed:@"msg_sent_selected"] resizableImageWithCapInsets:UIEdgeInsetsMake(7.0f, 7.0f, 21.0f, 15.0f)]
+        
 	};
 }
 

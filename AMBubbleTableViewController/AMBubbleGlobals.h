@@ -17,7 +17,8 @@ typedef enum {
 typedef enum {
 	AMBubbleCellTimestamp,
 	AMBubbleCellSent,
-	AMBubbleCellReceived
+	AMBubbleCellReceived,
+    AMBubbleCellAction,
 } AMBubbleCellType;
 
 typedef enum {
@@ -25,14 +26,24 @@ typedef enum {
 	AMBubbleAccessoryDown
 } AMBubbleAccessoryPosition;
 
-#define kMessageTextWidth	(UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) ? 380.0f : 180.0f
+#define kMessageTextWidth	(UIDeviceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) ? 370.0f : 228.0f
 
 @protocol AMBubbleTableDataSource <NSObject>
 @required
-- (NSInteger)numberOfRows;
+-(NSString*)getContact;
+- (int) getThreadType;
+- (NSInteger)numberOfObjects;
+- (NSInteger)numberOfSections;
+- (NSInteger)numberOfRowsInSection:(NSInteger)section;
 - (AMBubbleCellType)cellTypeForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (NSString *)textForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (NSDate *)timestampForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (NSString *)refIdForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (NSNumber *)messageStatusForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (NSNumber *)fromForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (NSNumber *)messageTypeForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (id) sections;
+
 @optional
 - (UIImage*)avatarForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (NSString*)usernameForRowAtIndexPath:(NSIndexPath *)indexPath;
@@ -41,6 +52,12 @@ typedef enum {
 
 @protocol AMBubbleTableDelegate <NSObject>
 - (void)didSendText:(NSString*)text;
+- (void)resendTextForRefId:(NSString*)refId;
+- (void)resendVoiceMessageWithRefId:(NSString*)refId;
+- (void)forwardText:(NSString*)text;
+- (void)forwardVoiceMessageWithBody:(NSString*)text andRefId:(NSString*)ref;
+- (void)didSendVoiceMessageWithForwardUrl:(NSString*)forwardUrl andRemoteUrl:(NSString*)remoteUrl andLocalPath:(NSString*)localPath andDuration:(NSString *)duration;
+- (BOOL)shouldEnableVoice;
 @optional
 - (void)swipedCellAtIndexPath:(NSIndexPath *)indexPath withFrame:(CGRect)frame andDirection:(UISwipeGestureRecognizerDirection)direction;
 - (void)longPressedCellAtIndexPath:(NSIndexPath *)indexPath withFrame:(CGRect)frame;
@@ -80,9 +97,11 @@ FOUNDATION_EXPORT NSString *const AMOptionsTimestampHeight;
 
 // Incoming bubble image
 FOUNDATION_EXPORT NSString *const AMOptionsImageIncoming;
+FOUNDATION_EXPORT NSString *const AMOptionsImageIncomingSelected;
 
 // Outgoing bubble image
 FOUNDATION_EXPORT NSString *const AMOptionsImageOutgoing;
+FOUNDATION_EXPORT NSString *const AMOptionsImageOutgoingSelected;
 
 // Text bar background image
 FOUNDATION_EXPORT NSString *const AMOptionsImageBar;

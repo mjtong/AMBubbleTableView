@@ -15,7 +15,7 @@
 #import "VoiceMessageCell.h"
 #import "ChikkaColor.h"
 #import "ChikkaFont.h"
-#import "GADBannerView.h"
+#import <GoogleMobileAds/GADBannerView.h>
 #import "MDLoadingView.h"
 
 

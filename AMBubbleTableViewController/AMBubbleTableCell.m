@@ -658,7 +658,11 @@
 
 -(void)setThumbnail:(NSString*)photoUrl andName:(NSString *)name{
     //[self.thumbnailImageView setImageWithURL:[NSURL URLWithString:photoUrl] placeholderImage:[UIImage imageNamed:@"img_contact.png"] options:SDWebImageRefreshCached];
+#if CTM_OLD
     [self.participantImage setImageWithURL:[NSURL URLWithString:photoUrl] placeholderImage:[UIImage imageNamed:@"profile-pic.png"] options:SDWebImageRefreshCached];
+#else
+    [self.participantImage sd_setImageWithURL:[NSURL URLWithString:photoUrl] placeholderImage:[UIImage imageNamed:@"profile-pic.png"] options:SDWebImageRefreshCached];
+#endif
     [self.participantName setText:name];
 }
 
